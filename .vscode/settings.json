@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "mystructs.h": "c",
+        "headers.h": "c"
+    }
+}
