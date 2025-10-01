@@ -47,8 +47,8 @@ extern char categories[10][50];
 void signup(struct Client *client, int *id);
 void updateClient(struct Client *client, int id);
 void displayClient(struct Client *client);
-void showProducts(int id);
-void showCategories(int id);
+void showProducts();
+void showCategories();
 void searchProduit();
 int startWith(char *userStr, char *product);
 int endWith(char *userStr, char *product);
@@ -57,6 +57,8 @@ void displayByorder();
 void showDetailsProduct();
 void makePayments(struct Client *client, int id, struct History *histories, int *historyIndex);
 void clientHistorie(struct History histories[], int historyIndex, int id);
+void clientStatistics(struct History histories[], int historyIndex, int id);
+void toLowerCase(char *str);
 
 void closeApp();
 void clearConsole(char *cl);
@@ -64,6 +66,8 @@ void clearConsole(char *cl);
 void generateEmail(char *name, char *lastName, char *email);
 
 void validateNumber(float *value);
+
+void validateIntNumber(int *value);
 
 void validateRange(int *intValue, int min, int max);
 
