@@ -461,7 +461,7 @@ void showDetailsProduct()
             printf("** Name: %s\n", products[i].name);
             printf("** Price: %.2f\n", products[i].price);
             printf("** Quantity: %d\n", products[i].quantity);
-            printf("** Category: %d\n", products[i].category);
+            printf("** Category: %s\n", categories[products[i].category - 1]);
             printf("** Description: %s\n", products[i].description);
             printf("** Add Date: %d-%d-%d\n", products[i].dateAdded.day, products[i].dateAdded.month, products[i].dateAdded.year);
             printf("*************************************************************************\n");
@@ -654,22 +654,23 @@ void clientStatistics(struct History histories[], int historyIndex, int id)
         clearConsole("clear");
         return;
     }
-    int totalQuantity;
+    int totalMoney;
     for (int i = 0; i <= historyIndex; i++)
     {
-        totalQuantity += histories[i].quantity;
+        totalMoney += (histories[i].product.price * histories[i].quantity);
     }
 
     for (int i = 0; i <= historyIndex; i++)
     {
         // histories[i];
-        float perCent = (100 * histories[i].quantity) / totalQuantity;
-        printf("Your statics of %s is %.2f %%\n", histories[i].product.name, perCent);
+        float perCent = (100 * histories[i].product.price * histories[i].quantity) / totalMoney;
+
+        printf("** You waste %.1f%% of your money on %s\n", perCent, histories[i].product.name);
         printf("** How much get paiyed: %d\n", histories[i].quantity);
         printf("** Name: %s\n", histories[i].product.name);
         printf("** Category: %s\n", categories[histories[i].product.category - 1]);
         printf("** Price: %.2f\n", histories[i].product.price);
-        printf("** Quantity: %d\n", histories[i].product.quantity);
+        // printf("** Quantity: %d\n", histories[i].product.quantity);
         printf("** Description: %s\n", histories[i].product.description);
         printf("*************************************************************************\n");
     }
