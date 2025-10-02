@@ -44,14 +44,18 @@ extern struct Product products[6];
 
 extern char categories[10][50];
 
+void manageClient(struct Client *client, int *id);
+void manageSolde(struct Client *client, int *id);
+void manageProducts(struct Client client, int id);
+void managePayments(struct Client *client, int id, struct History histories[], int *historyIndex);
+
 void signup(struct Client *client, int *id);
 void updateClient(struct Client *client, int id);
 void displayClient(struct Client *client);
 void showProducts();
 void showCategories();
 void searchProduit();
-int startWith(char *userStr, char *product);
-int endWith(char *userStr, char *product);
+
 int contains(char *userStr, char *product);
 void displayByorder();
 void showDetailsProduct();

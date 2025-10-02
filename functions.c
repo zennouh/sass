@@ -6,6 +6,231 @@
 
 #include "headers.h"
 
+void managePayments(struct Client *client, int id, struct History histories[], int *historyIndex)
+{
+    clearConsole("clear");
+    printf("********************************************************************\n");
+    printf("*                  Managing Payments & histori                     *\n");
+    printf("********************************************************************\n");
+    printf("\n");
+
+    if (id == 0)
+    {
+        printf("You must have an account to continue. !!\n\n");
+        printf("Press on any thing to continue...");
+        getchar();
+        clearConsole("clear");
+        return;
+    }
+    printf("[0]. Exit.\n");
+    printf("[1]. Pay product.\n");
+    printf("[2]. Client Histories.\n");
+    printf("[3]. Client Statics.\n");
+    printf("Your choice: ");
+    int choice;
+    scanf("%d", &choice);
+    while (getchar() != '\n')
+        ;
+
+    switch (choice)
+    {
+    case 0:
+        clearConsole("clear");
+        break;
+    case 1:
+        makePayments(client, id, histories, historyIndex);
+        break;
+    case 2:
+        clientHistorie(histories, *historyIndex, id);
+        break;
+    case 3:
+        clientStatistics(histories, *historyIndex, id);
+        break;
+
+    default:
+        printf("You have entred invalid value.\n");
+        break;
+    }
+}
+
+void manageProducts(struct Client client, int id)
+{
+    // printf("******** Managing Product & Categories **********\n");
+    clearConsole("clear");
+    printf("********************************************************************\n");
+    printf("*                   Managing Product & Categories                  *\n");
+    printf("********************************************************************\n");
+    printf("\n");
+    printf("[0]. Exit.\n");
+    printf("[1]. Show products.\n");
+    printf("[2]. Show categories.\n");
+    printf("[3]. Find product.\n");
+    printf("[4]. Sort products.\n");
+    printf("[5]. Details product.\n");
+    printf("Your choice: ");
+    int choice;
+    scanf("%d", &choice);
+    while (getchar() != '\n')
+        ;
+    switch (choice)
+    {
+    case 0:
+        clearConsole("clear");
+        break;
+    case 1:
+        showProducts();
+        break;
+    case 2:
+        showCategories();
+        break;
+    case 3:
+        searchProduit();
+        break;
+    case 4:
+        displayByorder();
+        break;
+    case 5:
+        showDetailsProduct();
+        break;
+
+    default:
+        printf("You have entred invalid value.\n");
+        break;
+    }
+}
+
+void manageSolde(struct Client *client, int *id)
+{
+    clearConsole("clear");
+    printf("********************************************************************\n");
+    printf("*                   Managing Client Solde                          *\n");
+    printf("********************************************************************\n");
+    printf("\n");
+    if (*id == 0)
+    {
+
+        printf("You must have an account to continue. !!\n\n");
+        printf("Press on any thing to continue...");
+        getchar();
+        clearConsole("clear");
+        return;
+    }
+
+    printf("[0]. Exit.\n");
+    printf("[1]. Display Solde.\n");
+    printf("[2]. Add Solde.\n");
+    printf("Your choice: ");
+    int choice;
+    scanf("%d", &choice);
+    while (getchar() != '\n')
+        ;
+    switch (choice)
+    {
+    case 0:
+        clearConsole("clear");
+        break;
+    case 1:
+        clearConsole("clear");
+        printf("Your solde is %f\n", client->sold);
+        printf("Press on any thing to continue...");
+        getchar();
+        clearConsole("clear");
+        break;
+
+    case 2:
+
+        printf("Enter your additional solde: ");
+        float addSold;
+        validateNumber(&addSold);
+        client->sold += addSold;
+        clearConsole("clear");
+        printf("The sold has increament, now you have %f\n", client->sold);
+
+        printf("Press on any thing to continue...");
+        getchar();
+        clearConsole("clear");
+
+        break;
+
+    default:
+        clearConsole("clear");
+        printf("You have entred invalid value.\n");
+        printf("Press on any thing to continue...");
+        getchar();
+        clearConsole("clear");
+
+        break;
+    }
+}
+
+void manageClient(struct Client *client, int *id)
+{
+    clearConsole("clear");
+    printf("********************************************************************\n");
+    printf("*                   Managing Client Profile                        *\n");
+    printf("********************************************************************\n");
+    printf("\n");
+    printf("[0]. Exit.\n");
+    if (*id != 0)
+    {
+        printf("[1]. Update profile.\n");
+    }
+    else
+    {
+        printf("[1]. Sign up.\n");
+    }
+    printf("[2]. Show profile.\n");
+    printf("Your choice: ");
+    int choice;
+    scanf("%d", &choice);
+    while (getchar() != '\n')
+        ;
+    switch (choice)
+    {
+    case 0:
+        clearConsole("clear");
+        break;
+    case 1:
+        clearConsole("clear");
+
+        if (*id != 0)
+        {
+            updateClient(client, *id);
+            printf("Press on any thing to continue...");
+            getchar();
+            clearConsole("clear");
+        }
+        else
+            signup(client, id);
+
+        break;
+
+    case 2:
+        if (*id == 0)
+        {
+            printf("We have no profile added yet.\n");
+            clearConsole("clear");
+            printf("Press on any thing to continue...");
+            getchar();
+            clearConsole("clear");
+        }
+        else
+        {
+            clearConsole("clear");
+            displayClient(client);
+            printf("Press on any thing to continue...");
+            getchar();
+            clearConsole("clear");
+        }
+
+        break;
+
+    default:
+        printf("You have entred invalid value.\n");
+        break;
+    }
+}
+
 void signup(struct Client *client, int *id)
 {
     (*id)++;
@@ -81,7 +306,7 @@ void updateClient(struct Client *client, int id)
 
 void showProducts()
 {
-
+    clearConsole("clear");
     printf("************************** Product List *******************************\n");
     for (int i = 0; i < 5; i++)
     {
@@ -97,11 +322,14 @@ void showProducts()
             printf("*************************************************************************\n");
         }
     }
+    printf("Press on any thing to continue...");
+    getchar();
+    clearConsole("clear");
 }
 
 void showCategories()
 {
-
+    clearConsole("clear");
     {
         printf("************************** Categories List *******************************\n");
         for (int i = 0; i < 10; i++)
@@ -110,6 +338,9 @@ void showCategories()
         }
         printf("*************************************************************************\n");
     }
+    printf("Press on any thing to continue...");
+    getchar();
+    clearConsole("clear");
 }
 
 void displayClient(struct Client *client)
@@ -125,18 +356,26 @@ void displayClient(struct Client *client)
 
 void searchProduit()
 {
+    clearConsole("clear");
     printf("************************ Search Product *******************************\n");
     int userChoice;
     printf("Would you like to search by:\n");
+    printf("[0]. Exit\n");
     printf("[1]. Name\n");
     printf("[2]. Category\n");
     printf("Your choice: ");
-    validateRange(&userChoice, 1, 2);
+    validateRange(&userChoice, 0, 2);
+    if (userChoice == 0)
+    {
+        clearConsole("clear");
+        return;
+    }
     if (userChoice == 1)
     {
         char productName[100];
         printf("Enter The name of product: ");
         validStringInput(productName);
+        clearConsole("clear");
 
         int isFound = 0;
         printf("*************************************************************************\n");
@@ -158,15 +397,17 @@ void searchProduit()
         if (!isFound)
         {
             printf("No product found with the name: %s\n", productName);
-            return;
         }
-        return;
+        printf("Press on any thing to continue...");
+        getchar();
+        clearConsole("clear");
     }
     if (userChoice == 2)
     {
         char category[100];
         printf("Enter The name of category: ");
         validStringInput(category);
+        clearConsole("clear");
 
         int isFound = 0;
         printf("*************************************************************************\n");
@@ -175,10 +416,9 @@ void searchProduit()
             char cate[50];
             strcpy(cate, categories[products[i].category - 1]);
 
-            int isStartWith = startWith(category, cate);
-            int isEndWith = endWith(category, cate);
+            int isHas = contains(category, cate);
 
-            if (isStartWith)
+            if (isHas)
             {
                 // printf("** ID: %d\n", products[i].idProduct);
                 printf("** Name: %s\n", products[i].name);
@@ -195,9 +435,10 @@ void searchProduit()
         if (!isFound)
         {
             printf("No product found with the category: %s\n", category);
-            return;
         }
-        return;
+        printf("Press on any thing to continue...");
+        getchar();
+        clearConsole("clear");
     }
 }
 
@@ -206,6 +447,7 @@ void showDetailsProduct()
     printf("Enter the name of product: ");
     char productName[50];
     validStringInput(productName);
+    clearConsole("clear");
     int isFound = 0;
     // struct Product foundProduct;
     printf("*************************************************************************\n");
@@ -220,7 +462,7 @@ void showDetailsProduct()
             printf("** Price: %.2f\n", products[i].price);
             printf("** Quantity: %d\n", products[i].quantity);
             printf("** Category: %d\n", products[i].category);
-            printf("** Description: %d\n", products[i].description);
+            printf("** Description: %s\n", products[i].description);
             printf("** Add Date: %d-%d-%d\n", products[i].dateAdded.day, products[i].dateAdded.month, products[i].dateAdded.year);
             printf("*************************************************************************\n");
 
@@ -231,9 +473,10 @@ void showDetailsProduct()
     if (!isFound)
     {
         printf("No product found with the name: %s\n", productName);
-        return;
     }
-    return;
+    printf("Press on any thing to continue...");
+    getchar();
+    clearConsole("clear");
 }
 
 void makePayments(struct Client *client, int id, struct History *histories, int *historyIndex)
@@ -396,6 +639,7 @@ void clientHistorie(struct History histories[], int historyIndex, int id)
 void clientStatistics(struct History histories[], int historyIndex, int id)
 {
     clearConsole("clear");
+    printf("************************** Client Statistic List *******************************\n");
     if (id == 0)
     {
         printf("You must sign up first to see products.\n");
@@ -403,13 +647,13 @@ void clientStatistics(struct History histories[], int historyIndex, int id)
     }
     if (historyIndex == -1)
     {
-        clearConsole("clear");
+        // clearConsole("clear");
         printf("No Statistics here yet.\n");
         printf("Press on any thing to continue...");
         getchar();
         clearConsole("clear");
+        return;
     }
-    printf("************************** Client Statistic List *******************************\n");
     int totalQuantity;
     for (int i = 0; i <= historyIndex; i++)
     {
@@ -432,55 +676,6 @@ void clientStatistics(struct History histories[], int historyIndex, int id)
     printf("Press on any thing to continue...");
     getchar();
     clearConsole("clear");
-}
-
-int startWith(char *userStr, char *product)
-{
-    int userStrLen = strlen(userStr);
-    int productLen = strlen(product);
-    int isStartWith = 1;
-    for (int i = 0; i < userStrLen; i++)
-    {
-        for (int j = i; j < productLen; j++)
-        {
-            char userStrChar = tolower(*(userStr + i));
-            char productChar = tolower(*(product + j));
-            if (userStrChar != productChar)
-            {
-                isStartWith = 0;
-                return 0;
-            }
-            else
-            {
-                break;
-            }
-        }
-    }
-    return isStartWith;
-}
-int endWith(char *userStr, char *product)
-{
-    int userStrLen = strlen(userStr);
-    int productLen = strlen(product);
-    int isStartWith = 1;
-    for (int i = 0; i < userStrLen; i++)
-    {
-        for (int j = i; j < productLen; j++)
-        {
-            char userStrChar = tolower(*(userStr + userStrLen - 1 - i));
-            char productChar = tolower(*(product + productLen - 1 - i));
-            if (userStrChar != productChar)
-            {
-                isStartWith = 0;
-                return 0;
-            }
-            else
-            {
-                break;
-            }
-        }
-    }
-    return isStartWith;
 }
 
 int contains(char *userStr, char *product)
@@ -543,6 +738,7 @@ void toLowerCase(char *str)
 
 void displayByorder()
 {
+    clearConsole("clear");
     printf("Would you like to sort by price or name:\n");
     printf("[1]. Price\n");
     printf("[2]. Name\n");
@@ -555,7 +751,7 @@ void displayByorder()
     printf("Your choice: ");
     int sortChoice;
     validateRange(&sortChoice, 1, 2);
-
+    clearConsole("clear");
     if (userChoice == 1)
     {
         for (int i = 0; i < 6; i++)
@@ -584,7 +780,7 @@ void displayByorder()
                 }
             }
         }
-
+        clearConsole("clear");
         for (int i = 0; i < 6; i++)
         {
             printf("*************************************************************************\n");
@@ -593,7 +789,7 @@ void displayByorder()
             printf("** Quantity: %d\n", products[i].quantity);
         }
         printf("*************************************************************************\n");
-        return;
+        // return;
     }
     else
     {
@@ -603,12 +799,25 @@ void displayByorder()
             {
                 if (strcmp(products[i].name, products[j].name) > 0)
                 {
-                    struct Product box = products[i];
-                    products[i] = products[j];
-                    products[j] = box;
+                    if (sortChoice == 1)
+                    {
+                        struct Product box = products[i];
+                        products[i] = products[j];
+                        products[j] = box;
+                    }
+                }
+                if (strcmp(products[i].name, products[j].name) <= 0)
+                {
+                    if (sortChoice == 2)
+                    {
+                        struct Product box = products[i];
+                        products[i] = products[j];
+                        products[j] = box;
+                    }
                 }
             }
         }
+        clearConsole("clear");
         for (int i = 0; i < 6; i++)
         {
             printf("*************************************************************************\n");
@@ -617,8 +826,12 @@ void displayByorder()
             printf("** Quantity: %d\n", products[i].quantity);
         }
         printf("*************************************************************************\n");
-        return;
+        // return;
     }
+
+    printf("Press on any thing to continue...");
+    getchar();
+    clearConsole("clear");
 }
 
 void generateEmail(char *name, char *lastName, char *email)
